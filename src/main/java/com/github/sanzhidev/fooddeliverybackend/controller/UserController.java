@@ -1,7 +1,9 @@
 package com.github.sanzhidev.fooddeliverybackend.controller;
 
+import com.github.sanzhidev.fooddeliverybackend.dto.CreateUserRequest;
 import com.github.sanzhidev.fooddeliverybackend.entity.User;
 import com.github.sanzhidev.fooddeliverybackend.service.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,24 +18,24 @@ public class UserController {
 
 
     @GetMapping
-    public List<User> getAllUsers(){
+    public List<User> getAllUsers() {
         return userService.getAllUsers();
 
     }
 
     @PostMapping
-    public User createUser(
-            @RequestParam String name,
-            @RequestParam String email,
-            @RequestParam String password
-    ) {
-        return userService.createUser(name, email, password);
+    public User createUser(@Valid @RequestBody CreateUserRequest request) {
+        return userService.createUser(
+                request.getName(),
+                request.getEmail(),
+                request.getPassword()
+        );
+
     }
+
 
     @GetMapping("/{id}")
-    public User getUserById(@PathVariable Long id){
+    public User getUserById(@PathVariable Long id) {
         return userService.getUserById(id);
     }
-
-
 }
